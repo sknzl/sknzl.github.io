@@ -27,7 +27,7 @@ workbox.core.clientsClaim();
  */
 self.__precacheManifest = [
   {
-    "url": "webpack-runtime-3c13ad4262df5423f877.js"
+    "url": "webpack-runtime-5f9b582fc3af1c487763.js"
   },
   {
     "url": "styles.2a307e351b108d9d5ca1.css"
@@ -42,14 +42,14 @@ self.__precacheManifest = [
     "url": "netlify-identity-widget-323b8517717145760ec1.js"
   },
   {
-    "url": "app-250f157d0b6a38c184d3.js"
+    "url": "app-271ab3235540d3fa863a.js"
   },
   {
     "url": "component---node-modules-gatsby-plugin-offline-app-shell-js-568c113b24a9e8ed8db8.js"
   },
   {
     "url": "offline-plugin-app-shell-fallback/index.html",
-    "revision": "c6f2aed2885eec25d1ad4a2cf471b237"
+    "revision": "514ab62cc7175739be495d767d12959a"
   },
   {
     "url": "manifest.json",
@@ -150,7 +150,7 @@ const navigationRoute = new NavigationRoute(async ({ event }) => {
   // Check for resources + the app bundle
   // The latter may not exist if the SW is updating to a new version
   const resources = await idbKeyval.get(`resources:${pathname}`)
-  if (!resources || !(await caches.match(`/app-250f157d0b6a38c184d3.js`))) {
+  if (!resources || !(await caches.match(`/app-271ab3235540d3fa863a.js`))) {
     return await fetch(event.request)
   }
 
