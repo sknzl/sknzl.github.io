@@ -1,8 +1,169 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Personal Page of Swen Künzel]]></title><description><![CDATA[Personal Page of Swen Künzel]]></description><link>https://sknzl.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Tue, 17 Dec 2019 12:42:41 GMT</lastBuildDate><item><title><![CDATA[Tracking electric scooters in Lisbon]]></title><description><![CDATA[An article how I collected the GPS data of electric scooters in Lisbon and the results.]]></description><link>https://sknzl.github.io/posts/tracking-electric-scooters-in-lisbon/</link><guid isPermaLink="false">https://sknzl.github.io/posts/tracking-electric-scooters-in-lisbon/</guid><pubDate>Mon, 09 Dec 2019 00:00:00 GMT</pubDate><content:encoded>&lt;ul&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Personal Page of Swen Künzel]]></title><description><![CDATA[Personal Page of Swen Künzel]]></description><link>https://sknzl.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Mon, 30 Mar 2020 17:58:46 GMT</lastBuildDate><item><title><![CDATA[Monitoring traffic of iOS apps]]></title><description><![CDATA[I was monitoring the traffic of my iOS apps to see where my personal data is sent to.]]></description><link>https://sknzl.github.io/posts/monitoring-traffic-of-ios-apps/</link><guid isPermaLink="false">https://sknzl.github.io/posts/monitoring-traffic-of-ios-apps/</guid><pubDate>Mon, 30 Mar 2020 00:00:00 GMT</pubDate><content:encoded>&lt;h2 id=&quot;introduction&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#introduction&quot; aria-label=&quot;introduction permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;After reading a few days ago about &lt;a href=&quot;https://www.vice.com/en_us/article/k7e599/zoom-ios-app-sends-data-to-facebook-even-if-you-dont-have-a-facebook-account&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;Zoom sending data to facebook&lt;/a&gt;, I was not shocked at all. While I was using &lt;a href=&quot;https://mitmproxy.org/&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;mitmproxy&lt;/a&gt; to log the traffic of my iPhone for my last &lt;a href=&quot;/posts/tracking-electric-scooters-in-lisbon/&quot;&gt;project&lt;/a&gt;, it was obvious that many apps send analytics data to the Facebook API. Following &lt;a href=&quot;https://staythefuckhome.com/&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;#StayTheFuckHome&lt;/a&gt;, I have a bit more time on my hands, and I was logging the traffic of some of my installed applications.
+I do not think app analytics is a problem at all. For companies and developers, it is essential to know and understand about their app usage. However, this data is often sent together with unique identifiers, like the advertiser id or unique device id, to 3rd parties like Facebook. These 3rd parties can accumulate for each unique identifier which apps are installed and how they are used. In the best case, this information is (ab)used just for targeted advertisements. In the following, the apps I monitored are divided into The Good, The Bad, and The Ugly.&lt;/p&gt;
+&lt;h2 id=&quot;the-good&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#the-good&quot; aria-label=&quot;the good permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;The Good&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Uber&lt;/li&gt;
+&lt;li&gt;Twitter&lt;/li&gt;
+&lt;li&gt;Dropbox&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;All 3 of them did not show any traffic connection to 3rd parties for sending app analytics. All of them have set up their in-house analytics for reporting app usage to their APIs.&lt;/p&gt;
+&lt;h2 id=&quot;the-bad&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#the-bad&quot; aria-label=&quot;the bad permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;The Bad&lt;/h2&gt;
+&lt;h3 id=&quot;ryanair&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#ryanair&quot; aria-label=&quot;ryanair permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Ryanair&lt;/h3&gt;
+&lt;p&gt;The Ryanair app uses the Facebook SDK. It means the &lt;code class=&quot;language-text&quot;&gt;advertiser_id&lt;/code&gt; is sent together with the iOS version, screen resolution, network operator, timezone, and country-code for any app event. The POST request to &lt;code class=&quot;language-text&quot;&gt;https://graph.facebook.com/v4.0/1756342261282366/activities&lt;/code&gt; contains following data (shortened personal identifiers removed, yes I still use an iPhone 5s)&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;advertiser_id&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;00AD3E04-CF5D-4B6A-9B06-xxxxxxxxxxx&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;advertiser_tracking_enabled&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;1&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;anon_id&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;XZ9308FFB6-7AEB-4077-B70D-xxxxxxxxxxx&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;application_tracking_enabled&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;1&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;event&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;CUSTOM_APP_EVENTS&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;extinfo&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;[\&quot;i2\&quot;,\&quot;com.ryanair.cheapflights\&quot;,\&quot;227\&quot;,\&quot;3.79.3\&quot;,\&quot;12.4.5\&quot;,\&quot;iPhone6,1\&quot;,\&quot;en_PT\&quot;,\&quot;WET\&quot;,\&quot;NOS\&quot;,320,568,\&quot;2.00\&quot;,2,15,2,\&quot;Europe\\/Lisbon\&quot;]&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;format&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;json&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;include_headers&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;false&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;sdk&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;ios&quot;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;However the Ryanair app also sends similar data to &lt;a href=&quot;https://www.swrve.com&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;Swrve&lt;/a&gt; for every activity. A typical POST request to &lt;code class=&quot;language-text&quot;&gt;https://6177.eu-api.swrve.com/1/batch&lt;/code&gt; contains the same data as the request to facebook and additionally a &lt;code class=&quot;language-text&quot;&gt;unique_device_id&lt;/code&gt; and a &lt;code class=&quot;language-text&quot;&gt;user&lt;/code&gt; identifier.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;data&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;token property&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;app.launched&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token property&quot;&gt;&quot;type&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;event&quot;&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;token property&quot;&gt;&quot;attributes&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;token property&quot;&gt;&quot;Swrve.permission.ios.push_bg_refresh&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;authorized&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;token property&quot;&gt;&quot;swrve.device_dpi&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;326&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;token property&quot;&gt;&quot;swrve.device_height&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;1136&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;token property&quot;&gt;&quot;swrve.device_name&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;iPhone6,1&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;token property&quot;&gt;&quot;swrve.device_region&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;PT&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;token property&quot;&gt;&quot;swrve.device_width&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;640&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;token property&quot;&gt;&quot;swrve.os&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;iOS&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;token property&quot;&gt;&quot;swrve.os_version&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;12.4.5&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;token property&quot;&gt;&quot;swrve.sim_operator.iso_country_code&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;pt&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;token property&quot;&gt;&quot;swrve.sim_operator.name&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;NOS&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;token property&quot;&gt;&quot;swrve.timezone_name&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Europe/Lisbon&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;unique_device_id&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;3FFD84D2-70BE-49C2-B40F-XXXXXXXXXXXX&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;user&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;8C5F8FAF-8126-41F2-8D95-XXXXXXXXXXXX&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&quot;airbnb&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#airbnb&quot; aria-label=&quot;airbnb permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;AirBnB&lt;/h3&gt;
+&lt;p&gt;The Airbnb app sends to Facebook the same information as the Ryanair app. Additionally AirBnB also sends data to &lt;a href=&quot;https://www.swift.com/&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;Sift&lt;/a&gt;.
+The requests to &lt;code class=&quot;language-text&quot;&gt;https://api3.siftscience.com/&lt;/code&gt; contain the same data as the requests to Facebook. But, they contain additional information like the battery level, magnetic field sensor data, user id, and the IP address, which is personally identifiable information (PII).&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;installation_id&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;3BD7943F-D927-4B2B-8827-xxxxxxxxxxxx&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;ios_app_state&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token property&quot;&gt;&quot;application_state&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;ui_application_state_active&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token property&quot;&gt;&quot;battery_level&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0.6200000047683716&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token property&quot;&gt;&quot;battery_state&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;ui_device_battery_state_unplugged&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token property&quot;&gt;&quot;device_orientation&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;ui_device_orientation_portrait&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token property&quot;&gt;&quot;heading&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;token property&quot;&gt;&quot;raw_magnetic_field_x&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;-33.402767181396484&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token property&quot;&gt;&quot;raw_magnetic_field_y&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;-166.6410369873047&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token property&quot;&gt;&quot;raw_magnetic_field_z&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;82.95677185058594&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token property&quot;&gt;&quot;true_heading&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;163.66522216796875&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token property&quot;&gt;&quot;network_addresses&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+            &lt;span class=&quot;token string&quot;&gt;&quot;10.214.186.xxx&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token string&quot;&gt;&quot;fe80::86e:932a:29de:xxxx&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token string&quot;&gt;&quot;2001:8a0:65a3:6300:1809:8f6f:faa1:xxxx&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token string&quot;&gt;&quot;2001:8a0:65a3:6300:d14e:d203:4289:xxxx&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token string&quot;&gt;&quot;192.168.1.xx&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token string&quot;&gt;&quot;fe80::78a6:15ff:fea4:xxx&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token string&quot;&gt;&quot;fe80::7d1:2f87:88b1:xxxx&quot;&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;user_id&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;C9uYLW9Rf1LHRsAwnBUCxxxx&quot;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id=&quot;the-ugly&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#the-ugly&quot; aria-label=&quot;the ugly permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;The Ugly&lt;/h2&gt;
+&lt;h3 id=&quot;glovo&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#glovo&quot; aria-label=&quot;glovo permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Glovo&lt;/h3&gt;
+&lt;p&gt;The delivery app also sends the same data to Facebook as the other monitored apps. Besides that, the Glovo app also sends data to &lt;a href=&quot;https://www.braze.com&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;Braze&lt;/a&gt;. The POST requests to &lt;code class=&quot;language-text&quot;&gt;https://sdk.fra-01.braze.eu/api/v3/data&lt;/code&gt; contain the same data as the data sent to Facebook and a unique &lt;code class=&quot;language-text&quot;&gt;user_ID&lt;/code&gt;. Some requests also contain the location together with the time - also PII.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;device_id&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;5E1AAFC9-7889-4093-A3AF-xxxxxxxxxxxx&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;events&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;token property&quot;&gt;&quot;data&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;token property&quot;&gt;&quot;alt_accuracy&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;token property&quot;&gt;&quot;altitude&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;58.13918685913086&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;token property&quot;&gt;&quot;latitude&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;48.858518&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;token property&quot;&gt;&quot;ll_accuracy&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;token property&quot;&gt;&quot;longitude&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;2.2922603&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token property&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;lr&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token property&quot;&gt;&quot;session_id&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;7F8AF4F8-F5D8-43E0-A85C-xxxxxxxxxxxxx&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token property&quot;&gt;&quot;time&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;1585420004.069&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token property&quot;&gt;&quot;user_id&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;8349xxx&quot;&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Glovo also sends data to &lt;a href=&quot;https://www.ravelin.com/&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;Ravelin&lt;/a&gt; with a POST request to &lt;code class=&quot;language-text&quot;&gt;https://api.ravelin.net/v2/fingerprint&lt;/code&gt; containing the phone model, language, operator, all installed fonts and the gps location.&lt;/p&gt;
+&lt;h3 id=&quot;bolt&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#bolt&quot; aria-label=&quot;bolt permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Bolt&lt;/h3&gt;
+&lt;p&gt;Bolt, formerly Taxify, is a transportation platform similar to Uber. Again data is sent to Facebook, as the other apps do. However, Bolt also sends data to &lt;a href=&quot;https://www.segment.io&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;Segment&lt;/a&gt; that includes a user id, email, and phone number. The POST requests to &lt;code class=&quot;language-text&quot;&gt;https://api.segment.io/v1/batch&lt;/code&gt; hold the following data:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;anonymousId&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;8738A73E-34DF-47CE-8971-xxxxxxxxxxxx&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;context&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token property&quot;&gt;&quot;device&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;token property&quot;&gt;&quot;adTrackingEnabled&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token property&quot;&gt;&quot;advertisingId&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;00AD3E04-CF5D-4B6A-9B06-xxxxxxxxxxxx&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token property&quot;&gt;&quot;id&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;BED9A70E-667A-40C3-9113-xxxxxxxxxxxx&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token property&quot;&gt;&quot;manufacturer&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Apple&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token property&quot;&gt;&quot;model&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;iPhone6,1&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token property&quot;&gt;&quot;type&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;ios&quot;&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token property&quot;&gt;&quot;traits&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;token property&quot;&gt;&quot;anonymousId&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;8738A73E-34DF-47CE-8971-xxxxxxxxxxxx&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token property&quot;&gt;&quot;country&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;pt&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token property&quot;&gt;&quot;device_name&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;iPhone5S&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token property&quot;&gt;&quot;facebook_connected&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token property&quot;&gt;&quot;platform&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;iOS&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token property&quot;&gt;&quot;platform_version&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;12.4.5&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token property&quot;&gt;&quot;userId&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;client-38675xxx&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token property&quot;&gt;&quot;user_email&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;xxx@gmail.com&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token property&quot;&gt;&quot;user_first_name&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Swen&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token property&quot;&gt;&quot;user_id&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;38675xxx&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token property&quot;&gt;&quot;user_last_name&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;xxx&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token property&quot;&gt;&quot;user_phone&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;+351915xxxxxx&quot;&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Additionally Bolt sends data to &lt;a href=&quot;https://clevertap.com/&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;CleverTap &lt;/a&gt; containing similar information, as the requests to Facebook.&lt;/p&gt;
+&lt;h3 id=&quot;zomato&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#zomato&quot; aria-label=&quot;zomato permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Zomato&lt;/h3&gt;
+&lt;p&gt;Zomato is an app to discover restaurants and for food delivery. Zomato makes no exception in sending data to Facebook. However, Zomato also sends data to &lt;a href=&quot;https://clevertap.com/&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;CleverTap &lt;/a&gt;. The POST requests to &lt;code class=&quot;language-text&quot;&gt;https://wzrkt.com/&lt;/code&gt; contain pretty much the same data as the request to Facebook. But, also the full customer name, email address, and phone number are included. Here is an example of the request:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;af&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token property&quot;&gt;&quot;Carrier&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;NOS&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token property&quot;&gt;&quot;Make&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Apple&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token property&quot;&gt;&quot;Model&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;iPhone6,1&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token property&quot;&gt;&quot;OS&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;iOS&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token property&quot;&gt;&quot;OS Version&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;12.4.5&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token property&quot;&gt;&quot;Radio&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;LTE&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token property&quot;&gt;&quot;cc&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;pt&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token property&quot;&gt;&quot;mt_ifa&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;00ad3e04cf5d4b6a9b0629exxxxxxxxx&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token property&quot;&gt;&quot;mt_ifv&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;86c6b057b8844a3ba0ebe3bxxxxxxxxx&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token property&quot;&gt;&quot;useIP&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token property&quot;&gt;&quot;wifi&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;profile&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token property&quot;&gt;&quot;Carrier&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;NOS&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token property&quot;&gt;&quot;Email&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;xxx@gmail.com&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token property&quot;&gt;&quot;Name&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Swen XXX&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token property&quot;&gt;&quot;Phone&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token property&quot;&gt;&quot;cc&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;pt&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token property&quot;&gt;&quot;ct_optout&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token property&quot;&gt;&quot;tz&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Europe/Lisbon&quot;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id=&quot;conclusion&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#conclusion&quot; aria-label=&quot;conclusion permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;With the implementation of GDPR in 2018, most websites started to have mandatory consent for visitors, explaining how personal data is saved and used.
+Unfortunately, mobile applications do not seem to show or ask for any consent. Most apps send analytics data to Facebook, although this option can be &lt;a href=&quot;https://developers.facebook.com/docs/app-events/gdpr-compliance/&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;switched off&lt;/a&gt; in the SDK.
+My biggest worry are The Ugly applications, which send personal information like full name, email, phone number, and location to Segment, CleverTap, or Ravelin. Segment advertises on the landing page &lt;em&gt;Segment is a customer data platform that makes good data accessible for all teams&lt;/em&gt;. Who is going to have access to my personal information, maybe an external marketing team that also gets access to the Segment account? But the biggest concern is the same as for Facebook: There was never the option in any of the apps to give explicit consent. Since Segment and CleverTap are based in the US and both are probably used to create automatic profiles for advertisement, I believe that an explicit GDPR consent is necessary - But I am also not a lawyer ;)&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Tracking electric scooters in Lisbon]]></title><description><![CDATA[An article how I collected the GPS data of electric scooters in Lisbon and the results.]]></description><link>https://sknzl.github.io/posts/tracking-electric-scooters-in-lisbon/</link><guid isPermaLink="false">https://sknzl.github.io/posts/tracking-electric-scooters-in-lisbon/</guid><pubDate>Mon, 09 Dec 2019 00:00:00 GMT</pubDate><content:encoded>&lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;#why?-and-how?&quot;&gt;Why and How?&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;#results-of-analyzing-the-data&quot;&gt;Results of analyzing the data&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&quot;why-and-how&quot;&gt;&lt;a href=&quot;#why-and-how&quot; aria-label=&quot;why and how permalink&quot; class=&quot;anchor&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Why? and How?&lt;/h2&gt;
+&lt;h2 id=&quot;why-and-how&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#why-and-how&quot; aria-label=&quot;why and how permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Why? and How?&lt;/h2&gt;
 &lt;p&gt;E-scooters started to clutter the streets, and unfortunately also the sidewalks, of Lisbon.
 For a test ride after a late dinner, I installed the application of Circ (formerly Flash). The disappointment was huge after the scooter did not pick up more speed than I could go myself on foot. Something was certainly off with the battery, engine or power circuit and I was not happy about the 1 Euro spent for unlocking it.&lt;/p&gt;
 &lt;p&gt;The next day I decided to have a closer look at their iOS application. I used &lt;a href=&quot;https://mitmproxy.org/&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;mitmproxy&lt;/a&gt; to intercept the traffic between my phone and the Circ API while using the app. One of the most interesting requests happened when I scrolled on the map so see scooters to rent around me.&lt;/p&gt;
@@ -48,33 +209,34 @@ For a test ride after a late dinner, I installed the application of Circ (former
     &gt;
       &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 58.748403575989784%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAAsSAAALEgHS3X78AAACK0lEQVQoz52SW08TURRG538ikcQX45/wzTcviIJKfDK0BZSYEIJGEmKCLdCAmtLCtPR25nJm2k5nWlqmt+nyUJsYEoyXSVa+M3vvrLMnGe3OQoJ7S3HuLsaZm48z8yjBrccJZv6C2ScJ5p6ucXt+TeU6s6qm1duXuEGXZneAfzkgCH/ln/Cns1fZ7PYpGDbaoBcyGg4gGjHo92Ac/eS/njFaGIb0ej2GwyHdy0v6/QFRFBGNxyr/kfFU2Ol0JsJWqzWRj1XjRtRFv+1N0Uaj0WTVqxsmm46iGz9FTV9/v8a0qo5asxPg+Q26nRa+5+A1qnieyUXgqI1VryFxGw6y2UDqGdKVFkkJX2xI2uNJ7tkdsn6WoOOhuX6VckXHNvKIqo40z5DGCbZlYFklHEPVDneR9SqF1RjxoxaxXEg8G/ImF7FyCpuFBociRc2toLXbHo60kArLsjDNEtI6p1QuYpk5iu4pYvcDwecdMu+3ieuwpke81UMl6nNSNmhKHcc8p+6q3+ai7SuJULIK0hZKVsS18jgiizAz6EpeffkQ58F9tnIeK0q4kR9xVPYQhoErvqrZA2pSCRVarRmoDU3qVgG/VsW0DfKGoGoWMeqS3EGar7F3fNorsl6B1TykRI+i9MnaFwhZo2bpBG6erm+iJUtNYimdnW9nbB3rLCerPEs6LKUEyweCF0nBUtphIe2xmLR5npK82rdYVPl6X7Cxn2M7/Z3Nwwwfj8/4AVBXaA8IIFFjAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 58.75%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAAsSAAALEgHS3X78AAACK0lEQVQoz52SW08TURRG538ikcQX45/wzTcviIJKfDK0BZSYEIJGEmKCLdCAmtLCtPR25nJm2k5nWlqmt+nyUJsYEoyXSVa+M3vvrLMnGe3OQoJ7S3HuLsaZm48z8yjBrccJZv6C2ScJ5p6ucXt+TeU6s6qm1duXuEGXZneAfzkgCH/ln/Cns1fZ7PYpGDbaoBcyGg4gGjHo92Ac/eS/njFaGIb0ej2GwyHdy0v6/QFRFBGNxyr/kfFU2Ol0JsJWqzWRj1XjRtRFv+1N0Uaj0WTVqxsmm46iGz9FTV9/v8a0qo5asxPg+Q26nRa+5+A1qnieyUXgqI1VryFxGw6y2UDqGdKVFkkJX2xI2uNJ7tkdsn6WoOOhuX6VckXHNvKIqo40z5DGCbZlYFklHEPVDneR9SqF1RjxoxaxXEg8G/ImF7FyCpuFBociRc2toLXbHo60kArLsjDNEtI6p1QuYpk5iu4pYvcDwecdMu+3ieuwpke81UMl6nNSNmhKHcc8p+6q3+ai7SuJULIK0hZKVsS18jgiizAz6EpeffkQ58F9tnIeK0q4kR9xVPYQhoErvqrZA2pSCRVarRmoDU3qVgG/VsW0DfKGoGoWMeqS3EGar7F3fNorsl6B1TykRI+i9MnaFwhZo2bpBG6erm+iJUtNYimdnW9nbB3rLCerPEs6LKUEyweCF0nBUtphIe2xmLR5npK82rdYVPl6X7Cxn2M7/Z3Nwwwfj8/4AVBXaA8IIFFjAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;picture&gt;
         &lt;source
-          srcset=&quot;/static/73957660df1f92944af1f0d963d60604/01472/admin_dashboard.webp 240w,
-/static/73957660df1f92944af1f0d963d60604/222bd/admin_dashboard.webp 480w,
-/static/73957660df1f92944af1f0d963d60604/620b9/admin_dashboard.webp 960w,
-/static/73957660df1f92944af1f0d963d60604/28063/admin_dashboard.webp 1440w,
-/static/73957660df1f92944af1f0d963d60604/31a16/admin_dashboard.webp 1566w&quot;
+          srcset=&quot;/static/73957660df1f92944af1f0d963d60604/8ac56/admin_dashboard.webp 240w,
+/static/73957660df1f92944af1f0d963d60604/d3be9/admin_dashboard.webp 480w,
+/static/73957660df1f92944af1f0d963d60604/e46b2/admin_dashboard.webp 960w,
+/static/73957660df1f92944af1f0d963d60604/f992d/admin_dashboard.webp 1440w,
+/static/73957660df1f92944af1f0d963d60604/9b2c8/admin_dashboard.webp 1566w&quot;
           sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
           type=&quot;image/webp&quot;
         /&gt;
         &lt;source
-          srcset=&quot;/static/73957660df1f92944af1f0d963d60604/0783d/admin_dashboard.png 240w,
-/static/73957660df1f92944af1f0d963d60604/782f4/admin_dashboard.png 480w,
-/static/73957660df1f92944af1f0d963d60604/f570d/admin_dashboard.png 960w,
-/static/73957660df1f92944af1f0d963d60604/8d0ff/admin_dashboard.png 1440w,
-/static/73957660df1f92944af1f0d963d60604/7d252/admin_dashboard.png 1566w&quot;
+          srcset=&quot;/static/73957660df1f92944af1f0d963d60604/8ff5a/admin_dashboard.png 240w,
+/static/73957660df1f92944af1f0d963d60604/e85cb/admin_dashboard.png 480w,
+/static/73957660df1f92944af1f0d963d60604/d9199/admin_dashboard.png 960w,
+/static/73957660df1f92944af1f0d963d60604/07a9c/admin_dashboard.png 1440w,
+/static/73957660df1f92944af1f0d963d60604/e405b/admin_dashboard.png 1566w&quot;
           sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
           type=&quot;image/png&quot;
         /&gt;
         &lt;img
           class=&quot;gatsby-resp-image-image&quot;
-          src=&quot;/static/73957660df1f92944af1f0d963d60604/f570d/admin_dashboard.png&quot;
+          src=&quot;/static/73957660df1f92944af1f0d963d60604/d9199/admin_dashboard.png&quot;
           alt=&quot;admin_dashboard.png&quot;
           title=&quot;admin_dashboard.png&quot;
           loading=&quot;lazy&quot;
+          style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         /&gt;
       &lt;/picture&gt;
     &lt;/span&gt;&lt;/p&gt;
@@ -82,9 +244,9 @@ For a test ride after a late dinner, I installed the application of Circ (former
 The admin panel of the Django application showing the logged position for one scooter.
 &lt;/div&gt;
 &lt;p&gt;&lt;em&gt;Note: I was also trying to retrieve similar information for Lime scooters. However, the Lime API does not return a unique Scooter ID. For every request the returned scooter IDs are randomized (and internally they map them to their real IDs), which makes it impossible to track individual scooters.&lt;/em&gt;&lt;/p&gt;
-&lt;h2 id=&quot;results-of-analyzing-the-data&quot;&gt;&lt;a href=&quot;#results-of-analyzing-the-data&quot; aria-label=&quot;results of analyzing the data permalink&quot; class=&quot;anchor&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Results of analyzing the data&lt;/h2&gt;
+&lt;h2 id=&quot;results-of-analyzing-the-data&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#results-of-analyzing-the-data&quot; aria-label=&quot;results of analyzing the data permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Results of analyzing the data&lt;/h2&gt;
 &lt;p&gt;The data was collected from the 18th of August for 111 days every 20 minutes. The data was processed and analyzed using a Jupyter notebook and the libraries &lt;a href=&quot;https://pandas.pydata.org/&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;pandas&lt;/a&gt;, &lt;a href=&quot;https://matplotlib.org/&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;matplotlib&lt;/a&gt; and &lt;a href=&quot;https://github.com/python-visualization/folium&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;folium&lt;/a&gt;.&lt;/p&gt;
-&lt;h3 id=&quot;finding-the-gps-accuracy&quot;&gt;&lt;a href=&quot;#finding-the-gps-accuracy&quot; aria-label=&quot;finding the gps accuracy permalink&quot; class=&quot;anchor&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Finding the GPS accuracy.&lt;/h3&gt;
+&lt;h3 id=&quot;finding-the-gps-accuracy&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#finding-the-gps-accuracy&quot; aria-label=&quot;finding the gps accuracy permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Finding the GPS accuracy.&lt;/h3&gt;
 &lt;p&gt;First, the data was analyzed by removing all scooter trips that were &amp;#x3C;20m in travel distance, due to the GPS accuracy of IoT devices and scooters being pushed around for fun. The results were rather odd:&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
@@ -96,27 +258,28 @@ The admin panel of the Django application showing the logged position for one sc
   &gt;&lt;/span&gt;
   &lt;picture&gt;
         &lt;source
-          srcset=&quot;/static/a08374aaf55fad723af8d1d890e68b94/01472/trips_and_kilometeres_20m_limit.webp 240w,
-/static/a08374aaf55fad723af8d1d890e68b94/222bd/trips_and_kilometeres_20m_limit.webp 480w,
-/static/a08374aaf55fad723af8d1d890e68b94/620b9/trips_and_kilometeres_20m_limit.webp 960w,
-/static/a08374aaf55fad723af8d1d890e68b94/65a12/trips_and_kilometeres_20m_limit.webp 1080w&quot;
+          srcset=&quot;/static/a08374aaf55fad723af8d1d890e68b94/8ac56/trips_and_kilometeres_20m_limit.webp 240w,
+/static/a08374aaf55fad723af8d1d890e68b94/d3be9/trips_and_kilometeres_20m_limit.webp 480w,
+/static/a08374aaf55fad723af8d1d890e68b94/e46b2/trips_and_kilometeres_20m_limit.webp 960w,
+/static/a08374aaf55fad723af8d1d890e68b94/260c2/trips_and_kilometeres_20m_limit.webp 1080w&quot;
           sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
           type=&quot;image/webp&quot;
         /&gt;
         &lt;source
-          srcset=&quot;/static/a08374aaf55fad723af8d1d890e68b94/0783d/trips_and_kilometeres_20m_limit.png 240w,
-/static/a08374aaf55fad723af8d1d890e68b94/782f4/trips_and_kilometeres_20m_limit.png 480w,
-/static/a08374aaf55fad723af8d1d890e68b94/f570d/trips_and_kilometeres_20m_limit.png 960w,
-/static/a08374aaf55fad723af8d1d890e68b94/e9c61/trips_and_kilometeres_20m_limit.png 1080w&quot;
+          srcset=&quot;/static/a08374aaf55fad723af8d1d890e68b94/8ff5a/trips_and_kilometeres_20m_limit.png 240w,
+/static/a08374aaf55fad723af8d1d890e68b94/e85cb/trips_and_kilometeres_20m_limit.png 480w,
+/static/a08374aaf55fad723af8d1d890e68b94/d9199/trips_and_kilometeres_20m_limit.png 960w,
+/static/a08374aaf55fad723af8d1d890e68b94/302a4/trips_and_kilometeres_20m_limit.png 1080w&quot;
           sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
           type=&quot;image/png&quot;
         /&gt;
         &lt;img
           class=&quot;gatsby-resp-image-image&quot;
-          src=&quot;/static/a08374aaf55fad723af8d1d890e68b94/f570d/trips_and_kilometeres_20m_limit.png&quot;
+          src=&quot;/static/a08374aaf55fad723af8d1d890e68b94/d9199/trips_and_kilometeres_20m_limit.png&quot;
           alt=&quot;trips_and_kilometeres_20m_limit.png&quot;
           title=&quot;trips_and_kilometeres_20m_limit.png&quot;
           loading=&quot;lazy&quot;
+          style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         /&gt;
       &lt;/picture&gt;
     &lt;/span&gt;&lt;/p&gt;
@@ -135,27 +298,28 @@ I was running the same analysis, but removing all trips with distances shorter t
   &gt;&lt;/span&gt;
   &lt;picture&gt;
         &lt;source
-          srcset=&quot;/static/d4bf438cddb25d20f4cdef034390da28/01472/trips_and_kilometeres_100m_limit.webp 240w,
-/static/d4bf438cddb25d20f4cdef034390da28/222bd/trips_and_kilometeres_100m_limit.webp 480w,
-/static/d4bf438cddb25d20f4cdef034390da28/620b9/trips_and_kilometeres_100m_limit.webp 960w,
-/static/d4bf438cddb25d20f4cdef034390da28/65a12/trips_and_kilometeres_100m_limit.webp 1080w&quot;
+          srcset=&quot;/static/d4bf438cddb25d20f4cdef034390da28/8ac56/trips_and_kilometeres_100m_limit.webp 240w,
+/static/d4bf438cddb25d20f4cdef034390da28/d3be9/trips_and_kilometeres_100m_limit.webp 480w,
+/static/d4bf438cddb25d20f4cdef034390da28/e46b2/trips_and_kilometeres_100m_limit.webp 960w,
+/static/d4bf438cddb25d20f4cdef034390da28/260c2/trips_and_kilometeres_100m_limit.webp 1080w&quot;
           sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
           type=&quot;image/webp&quot;
         /&gt;
         &lt;source
-          srcset=&quot;/static/d4bf438cddb25d20f4cdef034390da28/0783d/trips_and_kilometeres_100m_limit.png 240w,
-/static/d4bf438cddb25d20f4cdef034390da28/782f4/trips_and_kilometeres_100m_limit.png 480w,
-/static/d4bf438cddb25d20f4cdef034390da28/f570d/trips_and_kilometeres_100m_limit.png 960w,
-/static/d4bf438cddb25d20f4cdef034390da28/e9c61/trips_and_kilometeres_100m_limit.png 1080w&quot;
+          srcset=&quot;/static/d4bf438cddb25d20f4cdef034390da28/8ff5a/trips_and_kilometeres_100m_limit.png 240w,
+/static/d4bf438cddb25d20f4cdef034390da28/e85cb/trips_and_kilometeres_100m_limit.png 480w,
+/static/d4bf438cddb25d20f4cdef034390da28/d9199/trips_and_kilometeres_100m_limit.png 960w,
+/static/d4bf438cddb25d20f4cdef034390da28/302a4/trips_and_kilometeres_100m_limit.png 1080w&quot;
           sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
           type=&quot;image/png&quot;
         /&gt;
         &lt;img
           class=&quot;gatsby-resp-image-image&quot;
-          src=&quot;/static/d4bf438cddb25d20f4cdef034390da28/f570d/trips_and_kilometeres_100m_limit.png&quot;
+          src=&quot;/static/d4bf438cddb25d20f4cdef034390da28/d9199/trips_and_kilometeres_100m_limit.png&quot;
           alt=&quot;trips_and_kilometeres_100m_limit.png&quot;
           title=&quot;trips_and_kilometeres_100m_limit.png&quot;
           loading=&quot;lazy&quot;
+          style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         /&gt;
       &lt;/picture&gt;
     &lt;/span&gt;&lt;/p&gt;
@@ -180,27 +344,28 @@ Figure 2: Total trips and kilometers by day with trips shorter than 100m removed
   &gt;&lt;/span&gt;
   &lt;picture&gt;
         &lt;source
-          srcset=&quot;/static/4c56492f1b49e4876a4800c92564b144/01472/trips_distance_distribution.webp 240w,
-/static/4c56492f1b49e4876a4800c92564b144/222bd/trips_distance_distribution.webp 480w,
-/static/4c56492f1b49e4876a4800c92564b144/620b9/trips_distance_distribution.webp 960w,
-/static/4c56492f1b49e4876a4800c92564b144/65a12/trips_distance_distribution.webp 1080w&quot;
+          srcset=&quot;/static/4c56492f1b49e4876a4800c92564b144/8ac56/trips_distance_distribution.webp 240w,
+/static/4c56492f1b49e4876a4800c92564b144/d3be9/trips_distance_distribution.webp 480w,
+/static/4c56492f1b49e4876a4800c92564b144/e46b2/trips_distance_distribution.webp 960w,
+/static/4c56492f1b49e4876a4800c92564b144/260c2/trips_distance_distribution.webp 1080w&quot;
           sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
           type=&quot;image/webp&quot;
         /&gt;
         &lt;source
-          srcset=&quot;/static/4c56492f1b49e4876a4800c92564b144/0783d/trips_distance_distribution.png 240w,
-/static/4c56492f1b49e4876a4800c92564b144/782f4/trips_distance_distribution.png 480w,
-/static/4c56492f1b49e4876a4800c92564b144/f570d/trips_distance_distribution.png 960w,
-/static/4c56492f1b49e4876a4800c92564b144/e9c61/trips_distance_distribution.png 1080w&quot;
+          srcset=&quot;/static/4c56492f1b49e4876a4800c92564b144/8ff5a/trips_distance_distribution.png 240w,
+/static/4c56492f1b49e4876a4800c92564b144/e85cb/trips_distance_distribution.png 480w,
+/static/4c56492f1b49e4876a4800c92564b144/d9199/trips_distance_distribution.png 960w,
+/static/4c56492f1b49e4876a4800c92564b144/302a4/trips_distance_distribution.png 1080w&quot;
           sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
           type=&quot;image/png&quot;
         /&gt;
         &lt;img
           class=&quot;gatsby-resp-image-image&quot;
-          src=&quot;/static/4c56492f1b49e4876a4800c92564b144/f570d/trips_distance_distribution.png&quot;
+          src=&quot;/static/4c56492f1b49e4876a4800c92564b144/d9199/trips_distance_distribution.png&quot;
           alt=&quot;trips_distance_distribution.png&quot;
           title=&quot;trips_distance_distribution.png&quot;
           loading=&quot;lazy&quot;
+          style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         /&gt;
       &lt;/picture&gt;
     &lt;/span&gt;&lt;/p&gt;
@@ -218,27 +383,28 @@ Figure 3: Trip distance distribution.
   &gt;&lt;/span&gt;
   &lt;picture&gt;
         &lt;source
-          srcset=&quot;/static/4228d9a59d7f6303bcf29af48b5d00af/01472/scooter_kilometrage_distribution.webp 240w,
-/static/4228d9a59d7f6303bcf29af48b5d00af/222bd/scooter_kilometrage_distribution.webp 480w,
-/static/4228d9a59d7f6303bcf29af48b5d00af/620b9/scooter_kilometrage_distribution.webp 960w,
-/static/4228d9a59d7f6303bcf29af48b5d00af/65a12/scooter_kilometrage_distribution.webp 1080w&quot;
+          srcset=&quot;/static/4228d9a59d7f6303bcf29af48b5d00af/8ac56/scooter_kilometrage_distribution.webp 240w,
+/static/4228d9a59d7f6303bcf29af48b5d00af/d3be9/scooter_kilometrage_distribution.webp 480w,
+/static/4228d9a59d7f6303bcf29af48b5d00af/e46b2/scooter_kilometrage_distribution.webp 960w,
+/static/4228d9a59d7f6303bcf29af48b5d00af/260c2/scooter_kilometrage_distribution.webp 1080w&quot;
           sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
           type=&quot;image/webp&quot;
         /&gt;
         &lt;source
-          srcset=&quot;/static/4228d9a59d7f6303bcf29af48b5d00af/0783d/scooter_kilometrage_distribution.png 240w,
-/static/4228d9a59d7f6303bcf29af48b5d00af/782f4/scooter_kilometrage_distribution.png 480w,
-/static/4228d9a59d7f6303bcf29af48b5d00af/f570d/scooter_kilometrage_distribution.png 960w,
-/static/4228d9a59d7f6303bcf29af48b5d00af/e9c61/scooter_kilometrage_distribution.png 1080w&quot;
+          srcset=&quot;/static/4228d9a59d7f6303bcf29af48b5d00af/8ff5a/scooter_kilometrage_distribution.png 240w,
+/static/4228d9a59d7f6303bcf29af48b5d00af/e85cb/scooter_kilometrage_distribution.png 480w,
+/static/4228d9a59d7f6303bcf29af48b5d00af/d9199/scooter_kilometrage_distribution.png 960w,
+/static/4228d9a59d7f6303bcf29af48b5d00af/302a4/scooter_kilometrage_distribution.png 1080w&quot;
           sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
           type=&quot;image/png&quot;
         /&gt;
         &lt;img
           class=&quot;gatsby-resp-image-image&quot;
-          src=&quot;/static/4228d9a59d7f6303bcf29af48b5d00af/f570d/scooter_kilometrage_distribution.png&quot;
+          src=&quot;/static/4228d9a59d7f6303bcf29af48b5d00af/d9199/scooter_kilometrage_distribution.png&quot;
           alt=&quot;scooter_kilometrage_distribution.png&quot;
           title=&quot;scooter_kilometrage_distribution.png&quot;
           loading=&quot;lazy&quot;
+          style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         /&gt;
       &lt;/picture&gt;
     &lt;/span&gt;&lt;/p&gt;
@@ -256,27 +422,28 @@ Figure 4: Scooter kilometrage distribution.
   &gt;&lt;/span&gt;
   &lt;picture&gt;
         &lt;source
-          srcset=&quot;/static/6f64926c793981e1ba61d9daededa243/01472/new_scooters.webp 240w,
-/static/6f64926c793981e1ba61d9daededa243/222bd/new_scooters.webp 480w,
-/static/6f64926c793981e1ba61d9daededa243/620b9/new_scooters.webp 960w,
-/static/6f64926c793981e1ba61d9daededa243/65a12/new_scooters.webp 1080w&quot;
+          srcset=&quot;/static/6f64926c793981e1ba61d9daededa243/8ac56/new_scooters.webp 240w,
+/static/6f64926c793981e1ba61d9daededa243/d3be9/new_scooters.webp 480w,
+/static/6f64926c793981e1ba61d9daededa243/e46b2/new_scooters.webp 960w,
+/static/6f64926c793981e1ba61d9daededa243/260c2/new_scooters.webp 1080w&quot;
           sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
           type=&quot;image/webp&quot;
         /&gt;
         &lt;source
-          srcset=&quot;/static/6f64926c793981e1ba61d9daededa243/0783d/new_scooters.png 240w,
-/static/6f64926c793981e1ba61d9daededa243/782f4/new_scooters.png 480w,
-/static/6f64926c793981e1ba61d9daededa243/f570d/new_scooters.png 960w,
-/static/6f64926c793981e1ba61d9daededa243/e9c61/new_scooters.png 1080w&quot;
+          srcset=&quot;/static/6f64926c793981e1ba61d9daededa243/8ff5a/new_scooters.png 240w,
+/static/6f64926c793981e1ba61d9daededa243/e85cb/new_scooters.png 480w,
+/static/6f64926c793981e1ba61d9daededa243/d9199/new_scooters.png 960w,
+/static/6f64926c793981e1ba61d9daededa243/302a4/new_scooters.png 1080w&quot;
           sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
           type=&quot;image/png&quot;
         /&gt;
         &lt;img
           class=&quot;gatsby-resp-image-image&quot;
-          src=&quot;/static/6f64926c793981e1ba61d9daededa243/f570d/new_scooters.png&quot;
+          src=&quot;/static/6f64926c793981e1ba61d9daededa243/d9199/new_scooters.png&quot;
           alt=&quot;new_scooters.png&quot;
           title=&quot;new_scooters.png&quot;
           loading=&quot;lazy&quot;
+          style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         /&gt;
       &lt;/picture&gt;
     &lt;/span&gt;&lt;/p&gt;
@@ -290,31 +457,32 @@ Figure 5: Number of new scooters added by day.
     &gt;
       &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 64.93598862019915%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAAAsSAAALEgHS3X78AAACuUlEQVQ4y21TyU8TURyetiyVloSC0NQLJI0aOUgMGk+eSIyJmvQ/AA4kGhPLuSSNxjPhxoFTPSAH0BZKgbZqSynOUO06dKPTQthKacGUyKaHzzevUkvKJG+WN+/3vd+3PCaTyeDk5ASnp6coFos4ODgAy7LY3NzE+noGu7u7ODz8CY/HA0EQ0N/XB4ZhIJVK6bNqiIuSyST29/eRz+eRTqcRj8cQiUSQSgk4Pj4moDvg+TD41RgGXrykhc3NzVcDZrNZspiH3++noGJHGxvrWPb6EAiEcHR0RP4nsGD3wclG8FT3mBYqlAqoVKpqwL29PZydndHOAoEAobmBYDADjzcKL5dEPJGBy8Xihz+Hz84VPHqoLRfX19dXd5rL5YhGh1QzkT7LcnAvBvDVxcNiF7C8nCYbBAkYh+/8Du7cv3dJw7q6OgoqkUhKgGJXsVgM0WiU6BYm1IMQ0lksOHmYPkUwaUnBsxjGykocc04/JDJ5FU25XI6WlpbSJmJnogGhUAgOh4MMO+ZsHkzOJjBqm8boBx/mHWskBb/x6rWBAtTU1kImk9H3cmdk6PX6EmXRDIvFApvNhpmZaZg/zmPKmcY78zjem1NYTfyCdd6HNk17mW5lbHQ6HSYmJrC1tQVGdDUcDsNut9P8ud0ufHGy+MYVYVtKErensMgKuNnZfUm7i86Gh4dReTHiTYxNPl+gE+fnf+BYimF81o23b/QYGniA27farwxzY2MjRIaFQoHGbXt7G4zRaITVagXHcTCbzTAMGfHk+TNcV2suFUsrtLoA1mq1MJlMaGhogFqthlKpFOdL1leKK44bGg16e/tp1iQSYkRNTZW7tcQcVVNT+bu7m8iiUCjQ2tqKnp4eDA4OwmAwYGxsjBzHNXokm/4V/Kdb2ritTY2RkRHc7eoisbmG9o4OeL1e/AVqRV0NjkabwwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 64.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAAAsSAAALEgHS3X78AAACuUlEQVQ4y21TyU8TURyetiyVloSC0NQLJI0aOUgMGk+eSIyJmvQ/AA4kGhPLuSSNxjPhxoFTPSAH0BZKgbZqSynOUO06dKPTQthKacGUyKaHzzevUkvKJG+WN+/3vd+3PCaTyeDk5ASnp6coFos4ODgAy7LY3NzE+noGu7u7ODz8CY/HA0EQ0N/XB4ZhIJVK6bNqiIuSyST29/eRz+eRTqcRj8cQiUSQSgk4Pj4moDvg+TD41RgGXrykhc3NzVcDZrNZspiH3++noGJHGxvrWPb6EAiEcHR0RP4nsGD3wclG8FT3mBYqlAqoVKpqwL29PZydndHOAoEAobmBYDADjzcKL5dEPJGBy8Xihz+Hz84VPHqoLRfX19dXd5rL5YhGh1QzkT7LcnAvBvDVxcNiF7C8nCYbBAkYh+/8Du7cv3dJw7q6OgoqkUhKgGJXsVgM0WiU6BYm1IMQ0lksOHmYPkUwaUnBsxjGykocc04/JDJ5FU25XI6WlpbSJmJnogGhUAgOh4MMO+ZsHkzOJjBqm8boBx/mHWskBb/x6rWBAtTU1kImk9H3cmdk6PX6EmXRDIvFApvNhpmZaZg/zmPKmcY78zjem1NYTfyCdd6HNk17mW5lbHQ6HSYmJrC1tQVGdDUcDsNut9P8ud0ufHGy+MYVYVtKErensMgKuNnZfUm7i86Gh4dReTHiTYxNPl+gE+fnf+BYimF81o23b/QYGniA27farwxzY2MjRIaFQoHGbXt7G4zRaITVagXHcTCbzTAMGfHk+TNcV2suFUsrtLoA1mq1MJlMaGhogFqthlKpFOdL1leKK44bGg16e/tp1iQSYkRNTZW7tcQcVVNT+bu7m8iiUCjQ2tqKnp4eDA4OwmAwYGxsjBzHNXokm/4V/Kdb2ritTY2RkRHc7eoisbmG9o4OeL1e/AVqRV0NjkabwwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;picture&gt;
         &lt;source
-          srcset=&quot;/static/9c1730a5abe56f4fc055d2ae18ecad22/01472/heatmap.webp 240w,
-/static/9c1730a5abe56f4fc055d2ae18ecad22/222bd/heatmap.webp 480w,
-/static/9c1730a5abe56f4fc055d2ae18ecad22/620b9/heatmap.webp 960w,
-/static/9c1730a5abe56f4fc055d2ae18ecad22/824f7/heatmap.webp 1406w&quot;
+          srcset=&quot;/static/9c1730a5abe56f4fc055d2ae18ecad22/8ac56/heatmap.webp 240w,
+/static/9c1730a5abe56f4fc055d2ae18ecad22/d3be9/heatmap.webp 480w,
+/static/9c1730a5abe56f4fc055d2ae18ecad22/e46b2/heatmap.webp 960w,
+/static/9c1730a5abe56f4fc055d2ae18ecad22/05352/heatmap.webp 1406w&quot;
           sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
           type=&quot;image/webp&quot;
         /&gt;
         &lt;source
-          srcset=&quot;/static/9c1730a5abe56f4fc055d2ae18ecad22/0783d/heatmap.png 240w,
-/static/9c1730a5abe56f4fc055d2ae18ecad22/782f4/heatmap.png 480w,
-/static/9c1730a5abe56f4fc055d2ae18ecad22/f570d/heatmap.png 960w,
-/static/9c1730a5abe56f4fc055d2ae18ecad22/be72e/heatmap.png 1406w&quot;
+          srcset=&quot;/static/9c1730a5abe56f4fc055d2ae18ecad22/8ff5a/heatmap.png 240w,
+/static/9c1730a5abe56f4fc055d2ae18ecad22/e85cb/heatmap.png 480w,
+/static/9c1730a5abe56f4fc055d2ae18ecad22/d9199/heatmap.png 960w,
+/static/9c1730a5abe56f4fc055d2ae18ecad22/4a00e/heatmap.png 1406w&quot;
           sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
           type=&quot;image/png&quot;
         /&gt;
         &lt;img
           class=&quot;gatsby-resp-image-image&quot;
-          src=&quot;/static/9c1730a5abe56f4fc055d2ae18ecad22/f570d/heatmap.png&quot;
+          src=&quot;/static/9c1730a5abe56f4fc055d2ae18ecad22/d9199/heatmap.png&quot;
           alt=&quot;heatmap.png&quot;
           title=&quot;heatmap.png&quot;
           loading=&quot;lazy&quot;
+          style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         /&gt;
       &lt;/picture&gt;
     &lt;/span&gt;&lt;/p&gt;
@@ -326,10 +494,10 @@ Figure 5: Number of new scooters added by day.
 &lt;div style=&quot;font-style: italic;&quot; align=&quot;center&quot;&gt;
 &lt;a href=&apos;/media/scooter/map_animated.html&apos; target=&quot;_blank&quot;&gt; Click here for the interactive version of the map.&lt;/a&gt;
 &lt;/div&gt;
-&lt;h2 id=&quot;final-words&quot;&gt;&lt;a href=&quot;#final-words&quot; aria-label=&quot;final words permalink&quot; class=&quot;anchor&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Final words&lt;/h2&gt;
+&lt;h2 id=&quot;final-words&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#final-words&quot; aria-label=&quot;final words permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Final words&lt;/h2&gt;
 &lt;p&gt;This was just a superficial analysis of the recorded data. There could be more analysis on certain spikes in trips/kilometers and new scooters and relate them to local events. Also, the influence of weather could be analyzed.
 This data could be also very useful for city halls to understand the impact and usage of e-scooters in their city and adjust urban planning accordingly.
 Assuming an average speed for a trip the total usage time of the scooters could be calculated to retrieve the revenue of the renting companies.&lt;/p&gt;
-&lt;h3 id=&quot;what-to-improve&quot;&gt;&lt;a href=&quot;#what-to-improve&quot; aria-label=&quot;what to improve permalink&quot; class=&quot;anchor&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;What to improve&lt;/h3&gt;
+&lt;h3 id=&quot;what-to-improve&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#what-to-improve&quot; aria-label=&quot;what to improve permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;What to improve&lt;/h3&gt;
 &lt;p&gt;The time resolution of the data is low. For a second attempt, I would retrieve data from the API every minute. Also, the scooter “displacement” overnight was not taken into account since I can’t distinguish it from a ride. Probably I could clean up the data by removing all trips that were longer than usual during the night time.
 It would be also interesting to monitor different cities and compare the results.&lt;/p&gt;</content:encoded></item></channel></rss>
